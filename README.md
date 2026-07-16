@@ -49,6 +49,16 @@ These sit alongside the broader ecosystem cryptoAGI participates in — includin
 **non-custodial Bitcoin tooling** built to the *BTC Standard* (client-side keys, your own node) —
 and a body of applied work that matures in the open as it's ready.
 
+## Related organizations
+
+cryptoAGI works alongside a wider open ecosystem:
+
+- **[cypherpunk2048](https://github.com/cypherpunk2048)** — the *BTC Standard*: non-custodial,
+  client-side-key Bitcoin tooling (your keys, your node).
+- **[gnuGUI](https://github.com/gnugui)** — free, GNU-spirited graphical tooling.
+- **[Professor-Codephreak](https://github.com/Professor-Codephreak)** — the originating work the
+  ecosystem grew from.
+
 ## Principles we won't trade away
 
 - **Non-custodial, always.** We never hold your keys or your seed.
