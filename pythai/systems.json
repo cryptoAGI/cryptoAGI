@@ -1,0 +1,122 @@
+{
+  "portal": "pythai.net",
+  "host": "hostinger (web2 DNS delivery portal, independent of the VPS)",
+  "note": "Source of truth for the pythai.net admin portal. The portal renders this + a live/deploy status feed produced ON the VPS (see WIRING.md). Edit here; the VPS status probe fills in live/deploy state.",
+  "tagline": "PYTHAI — AI for the knowledge economy",
+  "wallet": {
+    "name": "PARSEC",
+    "primaryChain": "Algorand",
+    "evmExtension": {"ens": "bankon.eth", "role": "EVM extension — wrapper for control over the EVM side"},
+    "architecture": "PARSEC is Algorand-native; EVM (bankon.eth) is wrapped on top as a control extension. Like Atomic Wallet, but OPEN SOURCE on how private keys are delivered — per the github.com/cypherpunk2048 standard (non-custodial, client-side keys).",
+    "openSource": true,
+    "standard": "github.com/cypherpunk2048 (BTC Standard — non-custodial, client-side keys, auditable key delivery)",
+    "role": "deployer (EVM via bankon.eth)",
+    "gas": "0.3 ETH (being added)",
+    "algo": {"holds": "mindx.algo", "mints": ".algo domains from the UI as a service"}
+  },
+  "deployment": {
+    "contracts": "written and production-ready — NONE deployed yet",
+    "deployer": "bankon.eth (PARSEC wallet) · 0.3 ETH being added for gas",
+    "sequence": [
+      {"n": 1, "name": "SCIENTIFIC token", "role": "first production deployment"},
+      {"n": 2, "name": "SHAMBA LUV token", "role": "second test — includes the LUV suite of contract-extension tools"},
+      {"n": 3, "name": "BANKON PYTHAI", "role": "the knowledge-asset value token — represented by invest.pythai.net (being built)"},
+      {"n": 4, "name": "iNFT", "role": "intelligent NFT"},
+      {"n": 5, "name": "Algorand Suite", "role": "suite of Algorand tools"},
+      {"n": 6, "name": "PARSEC wallet", "role": "the multichain wallet (bankon.eth)"},
+      {"n": 7, "name": "BANKON BTC extension", "role": "the Bitcoin extension (non-custodial BTC WaaS)"}
+    ],
+    "startingWith": "SCIENTIFIC token",
+    "note": "All Solidity is authored and production-ready; mainnet deployment begins with the SCIENTIFIC token from bankon.eth, then SHAMBA LUV (+ LUV suite of contract-extension tools), then BANKON PYTHAI, then the marketplace, identity/minting, and DEX contracts."
+  },
+  "systems": [
+    {
+      "key": "bankon",
+      "name": "BANKON",
+      "subdomain": "bankon.pythai.net",
+      "exists": true,
+      "machine": "vps",
+      "summary": "Non-custodial Bitcoin WaaS + Vault (multichain), identity services, and minting. BANKON PYTHAI (knowledge-asset token) + BANKON PAI (inference pricing).",
+      "repos": ["cypherpunk2048/bankon-tools", "cryptoAGI/bankon-vault"],
+      "endpoints": [
+        {"path": "/", "role": "landing"},
+        {"path": "/ragest", "role": "RAGE handoff ingest"}
+      ],
+      "localPorts": [8088, 8090],
+      "deploy": {"target": "vps", "status": "unknown"}
+    },
+    {
+      "key": "rage",
+      "name": "RAGE",
+      "subdomain": "rage.pythai.net",
+      "exists": true,
+      "machine": "vps",
+      "summary": "Retrieval Augmented Generative Engine — pgvectorscale memory/knowledge (rageBTC lineage, GATERAGE).",
+      "repos": ["GATERAGE/*"],
+      "endpoints": [{"path": "/", "role": "RAGE engine"}],
+      "deploy": {"target": "vps", "status": "unknown"}
+    },
+    {
+      "key": "mindx",
+      "name": "mindX",
+      "subdomain": "mindx.pythai.net",
+      "exists": true,
+      "machine": "vps",
+      "summary": "Autonomous BDI cognitive system (Soul-Mind-Hands; AGInt P-O-D-A; BDI agent swarms). Augmentic intelligence orchestration. Currently publishing to rage.pythai.net (RAGE memory/knowledge).",
+      "repos": ["agenticplace/mindX", "agenticplace/mindXgamma"],
+      "issues": [
+        "300+ disorganized endpoints — need cataloguing/grouping",
+        "x402 paygate to include (per-request payment) from OVERLORD"
+      ],
+      "endpoints": [{"path": "/", "role": "mindX API (300+ endpoints — inventory pending)"}],
+      "deploy": {"target": "vps", "status": "unknown"}
+    },
+    {
+      "key": "agenticplace",
+      "name": "AgenticPlace",
+      "subdomain": "agenticplace.pythai.net",
+      "exists": true,
+      "machine": "vps",
+      "summary": "Marketplace to BUY / SELL / TRADE agents, models, and datasets. ERC-8004 agent registry indexing agents across EVM chains; Algorand-native NFT minting. Chain map at /allchain.html (ALLCHAIN A-Z).",
+      "repos": ["agenticplace/*", "cryptoAGI/chainmarketcap"],
+      "endpoints": [
+        {"path": "/", "role": "marketplace"},
+        {"path": "/allchain.html", "role": "chain map (chainmarketcap)"}
+      ],
+      "deploy": {"target": "vps", "status": "unknown"}
+    },
+    {
+      "key": "cryptoagi",
+      "name": "cryptoAGI",
+      "subdomain": "cryptoagi.pythai.net",
+      "exists": false,
+      "machine": "vps",
+      "summary": "Cryptocurrency Autonomous General Intelligence — org overview + hub. Template basis lives in cryptoAGI / agenticplace.",
+      "repos": ["cryptoAGI/cryptoAGI", "cryptoAGI/.github"],
+      "endpoints": [{"path": "/", "role": "org hub"}],
+      "deploy": {"target": "vps", "status": "not-created"}
+    },
+    {
+      "key": "invest",
+      "name": "invest — BANKON PYTHAI",
+      "subdomain": "invest.pythai.net",
+      "exists": false,
+      "machine": "vps",
+      "summary": "Investment portal representing BANKON PYTHAI (the knowledge-asset value token). Being built — not yet live.",
+      "repos": ["cryptoAGI/bankon-vault"],
+      "endpoints": [],
+      "deploy": {"target": "vps", "status": "building"}
+    },
+    {
+      "key": "deltaverse",
+      "name": "DeltaVerse",
+      "subdomain": "deltaverse.pythai.net",
+      "exists": false,
+      "machine": "other-machine",
+      "summary": "DeltaVerse — deploy target on the OTHER machine. Subdomain not created yet.",
+      "repos": ["agenticplace/DeltaVerse"],
+      "endpoints": [],
+      "deploy": {"target": "other-machine", "status": "not-created"}
+    }
+  ]
+}

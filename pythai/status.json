@@ -1,0 +1,207 @@
+{
+  "portal": "pythai.net",
+  "tagline": "PYTHAI — AI for the knowledge economy",
+  "generatedAt": "2026-07-17T23:46:30Z",
+  "summary": {
+    "total": 7,
+    "up": 2,
+    "down": 1,
+    "notCreated": 3
+  },
+  "systems": [
+    {
+      "key": "bankon",
+      "name": "BANKON",
+      "subdomain": "bankon.pythai.net",
+      "exists": true,
+      "machine": "vps",
+      "summary": "Non-custodial Bitcoin WaaS + Vault (multichain), identity services, and minting. BANKON PYTHAI (knowledge-asset token) + BANKON PAI (inference pricing).",
+      "repos": [
+        "cypherpunk2048/bankon-tools",
+        "cryptoAGI/bankon-vault"
+      ],
+      "endpoints": [
+        {
+          "path": "/",
+          "role": "landing"
+        },
+        {
+          "path": "/ragest",
+          "role": "RAGE handoff ingest"
+        }
+      ],
+      "localPorts": [
+        8088,
+        8090
+      ],
+      "deploy": {
+        "target": "vps",
+        "status": "unknown"
+      },
+      "live": "up",
+      "httpCode": 200,
+      "responseS": 0.560899,
+      "localPortStatus": [
+        {
+          "port": 8088,
+          "state": "down"
+        },
+        {
+          "port": 8090,
+          "state": "down"
+        }
+      ]
+    },
+    {
+      "key": "rage",
+      "name": "RAGE",
+      "subdomain": "rage.pythai.net",
+      "exists": true,
+      "machine": "vps",
+      "summary": "Retrieval Augmented Generative Engine — pgvectorscale memory/knowledge (rageBTC lineage, GATERAGE).",
+      "repos": [
+        "GATERAGE/*"
+      ],
+      "endpoints": [
+        {
+          "path": "/",
+          "role": "RAGE engine"
+        }
+      ],
+      "deploy": {
+        "target": "vps",
+        "status": "unknown"
+      },
+      "live": "degraded",
+      "httpCode": 403,
+      "responseS": 1.20247,
+      "localPortStatus": []
+    },
+    {
+      "key": "mindx",
+      "name": "mindX",
+      "subdomain": "mindx.pythai.net",
+      "exists": true,
+      "machine": "vps",
+      "summary": "Autonomous BDI cognitive system (Soul-Mind-Hands; AGInt P-O-D-A; BDI agent swarms). Augmentic intelligence orchestration. Currently publishing to rage.pythai.net (RAGE memory/knowledge).",
+      "repos": [
+        "agenticplace/mindX",
+        "agenticplace/mindXgamma"
+      ],
+      "issues": [
+        "300+ disorganized endpoints — need cataloguing/grouping",
+        "x402 paygate to include (per-request payment) from OVERLORD"
+      ],
+      "endpoints": [
+        {
+          "path": "/",
+          "role": "mindX API (300+ endpoints — inventory pending)"
+        }
+      ],
+      "deploy": {
+        "target": "vps",
+        "status": "unknown"
+      },
+      "live": "down",
+      "httpCode": 0,
+      "responseS": 0,
+      "localPortStatus": []
+    },
+    {
+      "key": "agenticplace",
+      "name": "AgenticPlace",
+      "subdomain": "agenticplace.pythai.net",
+      "exists": true,
+      "machine": "vps",
+      "summary": "Marketplace to BUY / SELL / TRADE agents, models, and datasets. ERC-8004 agent registry indexing agents across EVM chains; Algorand-native NFT minting. Chain map at /allchain.html (ALLCHAIN A-Z).",
+      "repos": [
+        "agenticplace/*",
+        "cryptoAGI/chainmarketcap"
+      ],
+      "endpoints": [
+        {
+          "path": "/",
+          "role": "marketplace"
+        },
+        {
+          "path": "/allchain.html",
+          "role": "chain map (chainmarketcap)"
+        }
+      ],
+      "deploy": {
+        "target": "vps",
+        "status": "unknown"
+      },
+      "live": "up",
+      "httpCode": 200,
+      "responseS": 0.808559,
+      "localPortStatus": []
+    },
+    {
+      "key": "cryptoagi",
+      "name": "cryptoAGI",
+      "subdomain": "cryptoagi.pythai.net",
+      "exists": false,
+      "machine": "vps",
+      "summary": "Cryptocurrency Autonomous General Intelligence — org overview + hub. Template basis lives in cryptoAGI / agenticplace.",
+      "repos": [
+        "cryptoAGI/cryptoAGI",
+        "cryptoAGI/.github"
+      ],
+      "endpoints": [
+        {
+          "path": "/",
+          "role": "org hub"
+        }
+      ],
+      "deploy": {
+        "target": "vps",
+        "status": "not-created"
+      },
+      "live": "not-created",
+      "httpCode": 0,
+      "responseS": 0,
+      "localPortStatus": []
+    },
+    {
+      "key": "invest",
+      "name": "invest — BANKON PYTHAI",
+      "subdomain": "invest.pythai.net",
+      "exists": false,
+      "machine": "vps",
+      "summary": "Investment portal representing BANKON PYTHAI (the knowledge-asset value token). Being built — not yet live.",
+      "repos": [
+        "cryptoAGI/bankon-vault"
+      ],
+      "endpoints": [],
+      "deploy": {
+        "target": "vps",
+        "status": "building"
+      },
+      "live": "not-created",
+      "httpCode": 0,
+      "responseS": 0,
+      "localPortStatus": []
+    },
+    {
+      "key": "deltaverse",
+      "name": "DeltaVerse",
+      "subdomain": "deltaverse.pythai.net",
+      "exists": false,
+      "machine": "other-machine",
+      "summary": "DeltaVerse — deploy target on the OTHER machine. Subdomain not created yet.",
+      "repos": [
+        "agenticplace/DeltaVerse"
+      ],
+      "endpoints": [],
+      "deploy": {
+        "target": "other-machine",
+        "status": "not-created"
+      },
+      "live": "not-created",
+      "httpCode": 0,
+      "responseS": 0,
+      "localPortStatus": []
+    }
+  ]
+}

@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PYTHAI — AI for the knowledge economy</title>
+<meta name="description" content="PYTHAI — the knowledge-economy AI network. Live systems: BANKON, RAGE, mindX, AgenticPlace, cryptoAGI.">
+<style>
+  /* ---- skin tokens: re-skin by editing these (kept minimal for the Zyro/Hostinger builder) ---- */
+  :root{
+    --bg:#0a0e17; --panel:#111826; --panel2:#0d1420; --ink:#e8eef6; --dim:#8aa0b4;
+    --line:#1d2a3a; --brand:#00d1b2; --brand2:#6c5ce7; --gold:#F7931A; --up:#16c784;
+    --down:#f85149; --idle:#5a6b7b; --radius:14px; --max:1140px;
+    --font:'DejaVu Sans',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    --mono:'DejaVu Sans Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box} html,body{margin:0}
+  body{background:radial-gradient(1200px 600px at 70% -10%,#12203a 0,transparent 60%),var(--bg);
+    color:var(--ink);font-family:var(--font);line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:var(--brand);text-decoration:none} a:hover{text-decoration:underline}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+
+  /* ---- header / improved menu ---- */
+  header{position:sticky;top:0;z-index:20;background:rgba(10,14,23,.82);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;gap:18px;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:1px}
+  .brand .dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand2))}
+  .menu{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+  .menu .grp{position:relative}
+  .menu .grp>button{background:transparent;border:0;color:var(--ink);font:inherit;font-size:14px;
+    padding:8px 12px;border-radius:9px;cursor:pointer}
+  .menu .grp:hover>button{background:var(--panel)}
+  .menu .drop{position:absolute;right:0;top:100%;min-width:220px;background:var(--panel);
+    border:1px solid var(--line);border-radius:12px;padding:6px;display:none;box-shadow:0 12px 30px rgba(0,0,0,.5)}
+  .menu .grp:hover .drop{display:block}
+  .menu .drop a{display:block;color:var(--ink);padding:8px 10px;border-radius:8px;font-size:14px}
+  .menu .drop a:hover{background:var(--panel2);text-decoration:none}
+  .menu .drop small{color:var(--dim)}
+  .menu .drop a.lead{font-weight:800;color:var(--brand)}
+  .menu .drop .paid{font-size:12px;color:var(--dim);background:var(--panel2);border:1px solid var(--line);
+    border-radius:8px;padding:8px 10px;margin:4px 2px 8px}
+  .menu .drop .paid b{color:var(--gold)}
+
+  /* ---- wallet chip ---- */
+  .wallet{display:flex;align-items:center;gap:8px;border:1px solid var(--gold);border-radius:999px;
+    padding:6px 12px;background:linear-gradient(180deg,#1a1200,#0d0a00);cursor:pointer}
+  .wallet .b.algo{background:#000;color:#fff}
+  .wallet .wname{font-weight:800;letter-spacing:1px;color:var(--ink);font-size:12px}
+  .wallet .chain{font-family:var(--mono);font-size:10px;color:var(--dim);border:1px solid var(--line);
+    border-radius:6px;padding:1px 5px}
+  .wallet .ens{font-family:var(--mono);font-weight:700;color:var(--gold)}
+  .wallet .ens:before{content:"↳ ";color:var(--dim);font-weight:400}
+  .wallet .b{width:18px;height:18px;border-radius:50%;background:var(--gold);color:#1a1200;
+    display:grid;place-items:center;font-weight:900;font-size:12px}
+  .wallet:hover{box-shadow:0 0 0 3px rgba(247,147,26,.15)}
+
+  /* ---- hero ---- */
+  .hero{padding:74px 0 40px;text-align:center}
+  .hero h1{font-size:clamp(30px,5vw,52px);margin:0 0 10px;letter-spacing:.5px;
+    background:linear-gradient(90deg,#fff,var(--brand));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:var(--dim);font-size:18px;max-width:680px;margin:0 auto 22px}
+  .cta{display:inline-flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:11px 18px;
+    border-radius:11px;font-weight:700}
+  .btn.p{background:linear-gradient(135deg,var(--brand),var(--brand2));border:0;color:#04121f}
+
+  /* ---- systems grid (live/deploy admin breakdown) ---- */
+  section.sys{padding:26px 0 60px}
+  .h{display:flex;align-items:center;gap:12px;margin:0 0 16px}
+  .h h2{margin:0;font-size:22px} .h .sub{color:var(--dim);font-size:13px}
+  .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+  .card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);
+    border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:10px}
+  .card .top{display:flex;align-items:center;gap:10px}
+  .card .name{font-weight:800;font-size:17px} .card .sd{color:var(--dim);font-family:var(--mono);font-size:12px}
+  .pill{margin-left:auto;font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px;letter-spacing:.5px}
+  .pill.up{color:#04120b;background:var(--up)} .pill.degraded{color:#1a1200;background:var(--gold)}
+  .pill.down{color:#fff;background:var(--down)} .pill.nc{color:#fff;background:var(--idle)}
+  .card p{margin:0;color:var(--dim);font-size:14px} .card .go{margin-top:auto}
+  .stat{color:var(--dim);font-family:var(--mono);font-size:12px}
+  .roadmap{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .roadmap li{display:flex;align-items:center;gap:14px;background:var(--panel2);border:1px solid var(--line);
+    border-radius:11px;padding:12px 16px}
+  .roadmap .n{width:26px;height:26px;border-radius:50%;background:var(--gold);color:#1a1200;
+    display:grid;place-items:center;font-weight:900;flex:0 0 auto}
+  .roadmap .nm{font-weight:800} .roadmap .rl{color:var(--dim);font-size:13px}
+  footer{border-top:1px solid var(--line);color:var(--dim);text-align:center;padding:30px 0;font-size:13px}
+  .fresh{color:var(--dim);font-family:var(--mono);font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <div class="brand"><span class="dot"></span> PYTHAI</div>
+    <nav class="menu">
+      <div class="grp"><button>Systems ▾</button>
+        <div class="drop" id="m-systems"><!-- filled from status.json --></div></div>
+      <div class="grp"><button>Agents ▾</button>
+        <div class="drop">
+          <a href="https://gpt.pythai.net/" class="lead">gpt.pythai.net — the agent team <small>· GPT-4 augmentation</small></a>
+          <div class="paid">🔒 Exclusive access via payment — <b>x402</b> delivers the OpenAI agent as a callable tool.<br><small>The GPT links below are on OpenAI, a courtesy to OpenAI.</small></div>
+          <a href="https://chat.openai.com/g/g-NO8ax8aMU-mastermind">MASTERMIND</a>
+          <a href="https://chat.openai.com/g/g-gNLDlpcAv-professor-codephreak">Professor Codephreak</a>
+          <a href="https://chat.openai.com/g/g-QZcppJtsM-pythia">Pythia — oracle of Delphi</a>
+          <a href="https://chat.openai.com/g/g-wOIRYuJb1-ice">I.C.E. — Intrusion Countermeasures</a>
+          <a href="https://chat.openai.com/g/g-lr6K7F0YB-justice-equitas">Justice Equitas — legal AI</a>
+        </div></div>
+      <div class="grp"><button>Code ▾</button>
+        <div class="drop">
+          <a href="https://github.com/PYTHAI">PYTHAI <small>· org</small></a>
+          <a href="https://github.com/cryptoAGI">cryptoAGI</a>
+          <a href="https://github.com/cypherpunk2048">cypherpunk2048 <small>· BTC Standard</small></a>
+          <a href="https://github.com/gnugui">gnuGUI</a>
+          <a href="https://github.com/mastermindml">mastermindML</a>
+          <a href="https://github.com/Professor-Codephreak">Professor Codephreak</a>
+        </div></div>
+      <div class="grp"><button>Collections ▾</button>
+        <div class="drop">
+          <a href="https://opensea.io/collection/astralguidance">ASTRALGUIDANCE — PYTHIA</a>
+          <a href="https://opensea.io/collection/mrmindz">MRMINDZ — In Prompt We Trust</a>
+          <a href="https://opensea.io/assets/matic/0x100dfb2c8cbc9b4a18fe8d7eb2bf4277d187939e/2">MASTERMIND MINT</a>
+        </div></div>
+    </nav>
+    <div class="wallet" id="wallet" title="PARSEC — Algorand-native wallet (holds mindx.algo · mints .algo domains). EVM extension: bankon.eth, wrapped for control (deployer, 0.3 ETH being added). Open-source key delivery, per the github.com/cypherpunk2048 standard — like Atomic Wallet but auditable. Click to copy bankon.eth.">
+      <span class="b algo">Ⱥ</span><span class="wname">PARSEC</span><span class="chain">algo</span><span class="ens" id="ens">bankon.eth</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <h1>AI for the knowledge economy</h1>
+    <p>PYTHAI is a network of autonomous, crypto-native systems — non-custodial by default, local-first,
+       open where it counts. Below is every system, live from the network.</p>
+    <div class="cta">
+      <a class="btn p" href="#systems">Explore the systems</a>
+      <a class="btn" href="https://github.com/cryptoAGI">cryptoAGI on GitHub</a>
+    </div>
+  </section>
+
+  <section class="sys wrap" id="systems">
+    <div class="h"><h2>Systems</h2><span class="sub" id="summary">loading live status…</span></div>
+    <div class="grid" id="grid"></div>
+    <p class="fresh" id="fresh"></p>
+  </section>
+
+  <section class="sys wrap" id="deploy">
+    <div class="h"><h2>Production deployment</h2><span class="sub" id="depnote"></span></div>
+    <ol class="roadmap" id="roadmap"></ol>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div><b>PYTHAI</b> — AI for the knowledge economy · wallet <b style="color:var(--gold)">bankon.eth</b></div>
+  <div style="margin-top:6px">
+    <a href="https://github.com/PYTHAI">PYTHAI</a> ·
+    <a href="https://github.com/cryptoAGI">cryptoAGI</a> ·
+    <a href="https://github.com/cypherpunk2048">cypherpunk2048</a> ·
+    <a href="https://github.com/gnugui">gnuGUI</a>
+  </div>
+</footer>
+
+<script>
+// Live/deploy admin breakdown — renders the VPS-produced status.json (see WIRING.md).
+// Falls back to systems.json (no live state) if status.json isn't published yet.
+const PILL={up:'up',degraded:'degraded',down:'down','not-created':'nc'};
+const LABEL={up:'LIVE',degraded:'AUTH',down:'DOWN','not-created':'SOON'};
+async function load(){
+  let data=null;
+  try{ data=await (await fetch('status.json',{cache:'no-store'})).json(); }catch(e){}
+  if(!data){ try{ const m=await (await fetch('systems.json')).json();
+    data={systems:m.systems.map(s=>({...s,live:s.exists?'unknown':'not-created'})),summary:{},generatedAt:null}; }catch(e){} }
+  if(!data){ document.getElementById('summary').textContent='status feed unavailable'; return; }
+  const grid=document.getElementById('grid'), md=document.getElementById('m-systems');
+  grid.innerHTML=''; md.innerHTML='';
+  for(const s of data.systems){
+    const live=s.live||'unknown', pk=PILL[live]||'nc', href=s.exists!==false?('https://'+s.subdomain):'#';
+    grid.insertAdjacentHTML('beforeend',
+      `<div class="card"><div class="top"><span class="name">${s.name}</span>
+        <span class="pill ${pk}">${LABEL[live]||'…'}</span></div>
+        <div class="sd">${s.subdomain}</div>
+        <p>${s.summary||''}</p>
+        ${s.httpCode?`<div class="stat">HTTP ${s.httpCode} · ${(s.responseS||0).toFixed(2)}s</div>`:''}
+        <div class="go">${s.exists!==false?`<a href="${href}">open ${s.subdomain} →</a>`:'<span class="stat">not created yet</span>'}</div>
+      </div>`);
+    md.insertAdjacentHTML('beforeend',
+      `<a href="${href}">${s.name} <small>· ${live}</small></a>`);
+  }
+  if(data.summary&&data.summary.total){const x=data.summary;
+    document.getElementById('summary').textContent=`${x.up} live · ${x.down||0} down · ${x.notCreated||0} coming — of ${x.total}`;}
+  if(data.generatedAt) document.getElementById('fresh').textContent='live as of '+data.generatedAt;
+}
+load(); setInterval(load,60000);
+document.getElementById('wallet').onclick=()=>navigator.clipboard?.writeText('bankon.eth');
+
+// deployment roadmap — from systems.json (source of truth; contracts written, none deployed yet)
+async function deploy(){
+  let m=null; try{ m=await (await fetch('systems.json')).json(); }catch(e){ return; }
+  const d=m.deployment||{}; const rm=document.getElementById('roadmap');
+  document.getElementById('depnote').textContent=
+    (d.contracts||'')+' · deployer '+((m.wallet&&m.wallet.name)||'')+' ('+(d.deployer? d.deployer.split('·')[1]||'' : '')+')';
+  (d.sequence||[]).forEach(s=>rm.insertAdjacentHTML('beforeend',
+    `<li><span class="n">${s.n}</span><span class="nm">${s.name}</span><span class="rl">${s.role||''}</span></li>`));
+}
+deploy();
+</script>
+</body>
+</html>
