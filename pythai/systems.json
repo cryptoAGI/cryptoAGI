@@ -7,7 +7,14 @@
     "name": "PARSEC",
     "primaryChain": "Algorand",
     "evmExtension": {"ens": "bankon.eth", "role": "EVM extension — wrapper for control over the EVM side"},
-    "architecture": "PARSEC is Algorand-native; EVM (bankon.eth) is wrapped on top as a control extension. Like Atomic Wallet, but OPEN SOURCE on how private keys are delivered — per the github.com/cypherpunk2048 standard (non-custodial, client-side keys).",
+    "btcExtension": {
+      "name": "BANKON BTC WaaS extension",
+      "role": "Bitcoin extension — non-custodial BTC Wallet-as-a-Service (watch-only descriptors, client-side PSBT signing, receive-from-QR, atomic swaps)",
+      "repo": "cypherpunk2048/bankon-tools",
+      "standard": "github.com/cypherpunk2048 (BTC Standard)"
+    },
+    "chains": ["Algorand (native)", "EVM (bankon.eth)", "Bitcoin (BANKON BTC WaaS extension)"],
+    "architecture": "PARSEC is Algorand-native; EVM (bankon.eth) is wrapped on top as a control extension, and Bitcoin is added via the BANKON BTC WaaS extension. Like Atomic Wallet, but OPEN SOURCE on how private keys are delivered — per the github.com/cypherpunk2048 standard (non-custodial, client-side keys).",
     "openSource": true,
     "standard": "github.com/cypherpunk2048 (BTC Standard — non-custodial, client-side keys, auditable key delivery)",
     "role": "deployer (EVM via bankon.eth)",
@@ -24,7 +31,7 @@
       {"n": 4, "name": "iNFT", "role": "intelligent NFT"},
       {"n": 5, "name": "Algorand Suite", "role": "suite of Algorand tools"},
       {"n": 6, "name": "PARSEC wallet", "role": "the multichain wallet (bankon.eth)"},
-      {"n": 7, "name": "BANKON BTC extension", "role": "the Bitcoin extension (non-custodial BTC WaaS)"}
+      {"n": 7, "name": "BANKON BTC WaaS extension", "role": "the Bitcoin extension for PARSEC — non-custodial BTC WaaS (cypherpunk2048/bankon-tools): watch-only descriptors, client-side PSBT, receive-from-QR, atomic swaps"}
     ],
     "startingWith": "SCIENTIFIC token",
     "note": "All Solidity is authored and production-ready; mainnet deployment begins with the SCIENTIFIC token from bankon.eth, then SHAMBA LUV (+ LUV suite of contract-extension tools), then BANKON PYTHAI, then the marketplace, identity/minting, and DEX contracts."
