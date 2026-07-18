@@ -51,6 +51,20 @@
     border-radius:6px;padding:1px 5px}
   .wallet .ens{font-family:var(--mono);font-weight:700;color:var(--gold)}
   .wallet .ens:before{content:"↳ ";color:var(--dim);font-weight:400}
+  /* login */
+  .login{margin-left:6px}
+  .loginbtn{background:linear-gradient(135deg,var(--brand),var(--brand2));border:0;color:#04121f;
+    font:inherit;font-weight:800;font-size:14px;padding:8px 14px;border-radius:10px;cursor:pointer}
+  .login.on .loginbtn{background:var(--panel);color:var(--up);border:1px solid var(--up)}
+  .login{position:relative}
+  .login .drop{position:absolute;left:auto;right:0;top:100%;min-width:250px;background:var(--panel);
+    border:1px solid var(--line);border-radius:12px;padding:6px;display:none;box-shadow:0 12px 30px rgba(0,0,0,.5)}
+  .login .drop a{display:block;color:var(--ink);padding:8px 10px;border-radius:8px;font-size:14px}
+  .login .drop a:hover{background:var(--panel2);text-decoration:none}
+  .login .drop small{color:var(--dim)}
+  .login:hover .drop,.login.open .drop{display:block}
+  .login .acct{font-family:var(--mono);font-size:12px;color:var(--ink);padding:8px 10px;border-bottom:1px solid var(--line);margin-bottom:4px}
+  .login .acct b{color:var(--up)}
   .wallet .b{width:18px;height:18px;border-radius:50%;background:var(--gold);color:#1a1200;
     display:grid;place-items:center;font-weight:900;font-size:12px}
   .wallet:hover{box-shadow:0 0 0 3px rgba(247,147,26,.15)}
@@ -124,6 +138,16 @@
     </nav>
     <div class="wallet" id="wallet" title="PARSEC — Algorand-native wallet (holds mindx.algo · mints .algo domains). Extensions: EVM via bankon.eth (wrapper for control; deployer, 0.3 ETH being added) + Bitcoin via the BANKON BTC WaaS extension (cypherpunk2048/bankon-tools). Open-source key delivery, per the github.com/cypherpunk2048 standard — like Atomic Wallet but auditable. Click to copy bankon.eth.">
       <span class="b algo">Ⱥ</span><span class="wname">PARSEC</span><span class="chain">algo</span><span class="chain">+ evm</span><span class="chain">+ btc</span><span class="ens" id="ens">bankon.eth</span>
+    </div>
+    <div class="grp login" id="loginwrap">
+      <button class="loginbtn" id="loginbtn">Connect ▾</button>
+      <div class="drop" id="logindrop">
+        <a href="#" id="connectEvm"><b>Connect EVM wallet</b><br><small>MetaMask / EIP-1193 · Sign-In with Ethereum</small></a>
+        <div class="acct" id="acct" style="display:none"></div>
+        <a href="#" id="siwe" style="display:none">✍ Sign in (SIWE)</a>
+        <a href="#" id="fmind">📈 Login to financialmind →</a>
+        <a href="#" id="disconnect" style="display:none">Disconnect</a>
+      </div>
     </div>
   </div>
 </header>
@@ -204,6 +228,55 @@ async function deploy(){
     `<li><span class="n">${s.n}</span><span class="nm">${s.name}</span><span class="rl">${s.role||''}</span></li>`));
 }
 deploy();
+
+// ---- EVM login (EIP-1193 + Sign-In with Ethereum / EIP-4361) + financialmind handoff ----
+// financialmind is a privilege-gated EVM-wallet app; the SAME connected wallet logs in there.
+// Its frontend URL is configurable — dev default localhost:5173; set fmind.pythai.net when deployed.
+const FMIND_URL = (localStorage.getItem('fmindUrl')) || 'http://localhost:5173';
+let ACCT=null;
+const $=id=>document.getElementById(id);
+function short(a){return a.slice(0,6)+'…'+a.slice(-4);}
+async function ensName(a){ try{
+  // reverse-resolve via a public resolver only if available; else show the address
+  return null; }catch(e){return null;} }
+async function connectEvm(e){ e&&e.preventDefault();
+  if(!window.ethereum){ alert('No EVM wallet found. Install MetaMask (or any EIP-1193 wallet).'); return; }
+  try{
+    const accts=await window.ethereum.request({method:'eth_requestAccounts'});
+    ACCT=accts[0]; onConnected();
+  }catch(err){ /* user rejected */ }
+}
+function onConnected(){
+  const w=$('loginwrap'); w.classList.add('on');
+  $('loginbtn').textContent=short(ACCT)+' ▾';
+  $('acct').style.display='block'; $('acct').innerHTML='connected <b>'+short(ACCT)+'</b>';
+  $('connectEvm').style.display='none'; $('siwe').style.display='block'; $('disconnect').style.display='block';
+  sessionStorage.setItem('evmAcct',ACCT);
+}
+async function siwe(e){ e.preventDefault(); if(!ACCT) return;
+  const domain=location.host||'pythai.net', nonce=Math.random().toString(36).slice(2,10);
+  const msg=`${domain} wants you to sign in with your Ethereum account:\n${ACCT}\n\nSign in to PYTHAI.\n\nURI: https://pythai.net\nVersion: 1\nChain ID: 1\nNonce: ${nonce}\nIssued At: ${new Date().toISOString()}`;
+  try{
+    const sig=await window.ethereum.request({method:'personal_sign',params:[msg,ACCT]});
+    sessionStorage.setItem('siwe',JSON.stringify({address:ACCT,sig,nonce}));
+    $('acct').innerHTML='signed in <b>'+short(ACCT)+'</b> ✓';
+  }catch(err){}
+}
+function fmindLogin(e){ e.preventDefault();
+  // hand the connected wallet to financialmind's privilege-gated login (WalletSetup reads it).
+  const u=new URL(FMIND_URL);
+  if(ACCT) u.searchParams.set('login', ACCT);
+  window.open(u.toString(),'_blank','noopener');
+}
+$('connectEvm').onclick=connectEvm;
+$('loginbtn').onclick=()=>{ if(!ACCT) connectEvm(); };
+$('siwe').onclick=siwe;
+$('fmind').onclick=fmindLogin;
+$('disconnect').onclick=e=>{e.preventDefault();ACCT=null;sessionStorage.removeItem('evmAcct');sessionStorage.removeItem('siwe');
+  $('loginwrap').classList.remove('on');$('loginbtn').textContent='Connect ▾';
+  $('acct').style.display='none';$('siwe').style.display='none';$('disconnect').style.display='none';$('connectEvm').style.display='block';};
+// restore session
+if(sessionStorage.getItem('evmAcct')){ ACCT=sessionStorage.getItem('evmAcct'); onConnected(); }
 </script>
 </body>
 </html>
